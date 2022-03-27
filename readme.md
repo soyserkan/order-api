@@ -24,6 +24,6 @@ npm run start:dev
 - MongoDB
 
 ## Swaggger Doc 
-* ⚙️** Swagger UI** at `http://localhost:3000/api-docs`
+* ⚙️ **Swagger UI** at `http://localhost:3000/api-docs`
 
 
