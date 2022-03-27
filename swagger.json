@@ -1,0 +1,219 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "API Documentation For Order API",
+        "description": "Order Restful webservice application",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "basePath": "/api",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/orders/create": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create list of orders",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Create",
+                        "in": "body",
+                        "description": "bulk order create",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Order"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "success": true,
+                                "$ref": "#/definitions/SuccessResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data.",
+                        "schema": {
+                            "$ref": "#/definitions/FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/filter": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Search orders",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Filter",
+                        "in": "body",
+                        "description": "Search orders given parameters",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrderFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data.",
+                        "schema": {
+                            "$ref": "#/definitions/FailedResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Order": {
+            "required": [
+                "Id",
+                "BrandId",
+                "Price",
+                "StoreName",
+                "CustomerName"
+            ],
+            "properties": {
+                "Id": {
+                    "type": "integer",
+                    "uniqueItems": true,
+                    "example": 1
+                },
+                "BrandId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "Price": {
+                    "type": "integer",
+                    "format": "decimal",
+                    "example": 156.99
+                },
+                "StoreName": {
+                    "type": "string"
+                },
+                "CustomerName": {
+                    "type": "string"
+                },
+                "CreatedOn": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "Status": {
+                    "type": "number",
+                    "enum": [
+                        10,
+                        20,
+                        30,
+                        40,
+                        50,
+                        60
+                    ]
+                }
+            }
+        },
+        "OrderFilter": {
+            "properties": {
+                "PageSize": {
+                    "type": "number",
+                    "example": 10
+                },
+                "PageNumber": {
+                    "type": "number",
+                    "example": 1
+                },
+                "SearchText": {
+                    "type": "string"
+                },
+                "StartDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "EndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "Statuses": {
+                    "type": "array",
+                    "description": "Order Status",
+                    "items": {
+                        "type": "number",
+                        "enum": [
+                            10,
+                            20,
+                            30,
+                            40,
+                            50,
+                            60
+                        ]
+                    }
+                },
+                "SortBy": {
+                    "type": "string",
+                    "enum": [
+                        "Id",
+                        "BrandId",
+                        "Price",
+                        "StoreName",
+                        "CustomerName",
+                        "CreatedOn",
+                        "Status"
+                    ]
+                }
+            }
+        },
+        "SuccessResponse": {
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "result": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Order"
+                    }
+                }
+            }
+        },
+        "FailedResponse": {
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "example": "false"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
